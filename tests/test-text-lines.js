@@ -1,10 +1,5 @@
 const assert = require('assert').strict;
-const TextLines = require('../index').TextLines;
-
-const PUSH_BUFFER_SIZE = 3;
-const createTextLines = function() {
-  return new TextLines({pushBufferSize: PUSH_BUFFER_SIZE});
-};
+const {createTextLines, testLines} = require('./utils.js');
 
 describe('TextLines', function() {
   it('should correctly be constructed', function() {
@@ -34,6 +29,7 @@ describe('TextLines', function() {
     const slice2 = tl.slice(0, 10);
     assert.equal(slice2.getText(), '');
   });
+
   it('should correctly set with a non empty line without new line', function() {
     const tl = createTextLines();
     tl.setText('test line');
@@ -103,30 +99,6 @@ describe('TextLines', function() {
     }
   );
 
-  const testLines = function(lines) {
-    const count = lines.length;
-    const text = lines.join('\n');
-    const tl = createTextLines();
-    tl.setText(text);
-    for (let i = 0; i < count; ++i) {
-      const eol = i < count - 1 ? '\n' : '';
-      assert.equal(tl.getLineText(i), lines[i] + eol);
-      assert.equal(tl.getLineText(i, true), lines[i]);
-    }
-    assert.equal(tl.getSubText(0, lines.length), text);
-    assert.equal(tl.getSubText(0, lines.length + 1), text);
-    assert.equal(tl.getSubText(0, lines.length + 10), text);
-    assert.equal(tl.getSubText(0, lines.length, true), text);
-    assert.equal(tl.getSubText(0, lines.length + 1, true), text);
-    assert.equal(tl.getSubText(0, lines.length + 10, true), text);
-    for (let i = 0; i < count; ++i) {
-      for (let j = i; j < count + 2; ++j) {
-        const subText = tl.getSubText(i, j, true);
-        const tls = tl.slice(i, j);
-        assert.equal(subText, tls.getSubText(0, count + 10));
-      }
-    }
-  };
 
   it(
     'should correctly set with multiple lines',

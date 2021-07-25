@@ -1,6 +1,6 @@
 {
   "name": "text-lines",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A library to manipulate text lines.",
   "main": "index.js",
   "scripts": {
